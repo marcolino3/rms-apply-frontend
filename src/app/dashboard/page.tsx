@@ -14,7 +14,9 @@ const DashboardPage = async () => {
   return (
     <div>
       <h1 className="text-2xl">DashboardPage</h1>
-      {users && users?.map((user) => <p key={user.id}>{user.email}</p>)}
+      {users?.map((user) => (
+        <p key={user.id}>{user.email}</p>
+      ))}
     </div>
   );
 };
