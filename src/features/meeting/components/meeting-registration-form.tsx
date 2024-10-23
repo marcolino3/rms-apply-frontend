@@ -92,6 +92,23 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function MeetingRegistrationForm() {
+  const formatDate = useCallback((input: string) => {
+    const cleaned = input.replace(/\D/g, "");
+    let formatted = "";
+
+    if (cleaned.length > 0) {
+      formatted += cleaned.substr(0, 2);
+      if (cleaned.length > 2) {
+        formatted += "." + cleaned.substr(2, 2);
+        if (cleaned.length > 4) {
+          formatted += "." + cleaned.substr(4, 4);
+        }
+      }
+    }
+
+    return formatted;
+  }, []);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -306,7 +323,7 @@ export default function MeetingRegistrationForm() {
         </Button>
       </div>
     ),
-    [childFields, form.control, appendChild, removeChild]
+    [childFields, form.control, appendChild, removeChild, formatDate]
   );
 
   const ParentFields = useCallback(
@@ -434,23 +451,6 @@ export default function MeetingRegistrationForm() {
 
   const onSubmit = useCallback((values: FormValues) => {
     console.log(values);
-  }, []);
-
-  const formatDate = useCallback((input: string) => {
-    const cleaned = input.replace(/\D/g, "");
-    let formatted = "";
-
-    if (cleaned.length > 0) {
-      formatted += cleaned.substr(0, 2);
-      if (cleaned.length > 2) {
-        formatted += "." + cleaned.substr(2, 2);
-        if (cleaned.length > 4) {
-          formatted += "." + cleaned.substr(4, 4);
-        }
-      }
-    }
-
-    return formatted;
   }, []);
 
   return (
